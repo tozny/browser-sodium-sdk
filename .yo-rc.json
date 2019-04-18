@@ -1,9 +1,0 @@
-{
-  "generator-node": {
-    "promptValues": {
-      "authorName": "Eric Mann",
-      "authorEmail": "eric@tozny.com",
-      "authorUrl": "https://tozny.com"
-    }
-  }
-}
