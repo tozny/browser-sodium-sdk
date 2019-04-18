@@ -1,6 +1,6 @@
 {
   "name": "tozny-browser-sodium-sdk",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Sodium mode browser SDK for Tozny Storage (TozStore) clients.",
   "homepage": "https://github.com/tozny/browser-sodium-sdk",
   "author": {
@@ -99,7 +99,7 @@
     "babel-runtime": "^6.26",
     "base64url": "^3.0.1",
     "dotenv": "^6.1.0",
-    "e3db-client-interface": "0.0.3",
+    "e3db-client-interface": "^0.0.4",
     "es6-promise": "^4.2.4",
     "isomorphic-fetch": "^2.2",
     "libsodium-wrappers": "^0.7.3"
