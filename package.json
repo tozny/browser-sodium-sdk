@@ -1,0 +1,107 @@
+{
+  "name": "tozny-browser-sodium",
+  "version": "1.2.5",
+  "description": "JavaScript client library for E3DB",
+  "homepage": "https://github.com/tozny/e3db-js",
+  "author": {
+    "name": "Tozny, LLC",
+    "email": "info@tozny.com",
+    "url": "https://tozny.com"
+  },
+  "license": "proprietary",
+  "files": [
+    "dist"
+  ],
+  "main": "dist/index.js",
+  "keywords": [
+    "encryption",
+    "encrypted-store",
+    "api-client"
+  ],
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.7.0",
+    "coveralls": "^3.0.0",
+    "eslint": "^4.19.1",
+    "eslint-config-prettier": "^2.6.0",
+    "eslint-config-xo": "^0.20.1",
+    "eslint-plugin-prettier": "^2.6.0",
+    "husky": "^0.14.3",
+    "jest": "^22.4.3",
+    "jest-cli": "^23.6.0",
+    "jest-fetch-mock": "^2.0.1",
+    "lint-staged": "^7.0.4",
+    "prettier": "^1.12.1"
+  },
+  "scripts": {
+    "prepare": "babel lib -d dist --ignore lib/__tests__",
+    "pretest": "babel lib -d dist --ignore lib/__tests__",
+    "precommit": "lint-staged",
+    "test": "jest",
+    "testcov": "jest --coverage",
+    "build": "babel lib -d dist --ignore lib/__tests__",
+    "profile": "jest profile.test"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*.json": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "xo",
+      "prettier"
+    ],
+    "env": {
+      "jest": true,
+      "node": true
+    },
+    "rules": {
+      "max-params": [
+        "error",
+        9
+      ],
+      "no-prototype-builtins": [
+        "off"
+      ],
+      "no-await-in-loop": [
+        "off"
+      ],
+      "prettier/prettier": [
+        "error",
+        {
+          "singleQuote": true,
+          "printWidth": 90
+        }
+      ]
+    },
+    "plugins": [
+      "prettier"
+    ]
+  },
+  "repository": "https://github.com/tozny/e3db-js",
+  "jest": {
+    "automock": false,
+    "setupFiles": [
+      "./setupJest.js"
+    ],
+    "testEnvironment": "jsdom"
+  },
+  "dependencies": {
+    "babel-runtime": "^6.26",
+    "base64url": "^3.0.1",
+    "dotenv": "^6.1.0",
+    "es6-promise": "^4.2.4",
+    "isomorphic-fetch": "^2.2",
+    "js-md5": "^0.7.3",
+    "libsodium-wrappers": "^0.7.3"
+  }
+}
