@@ -99,7 +99,7 @@
     "babel-runtime": "^6.26",
     "base64url": "^3.0.1",
     "dotenv": "^6.1.0",
-    "e3db-client-interface": "^0.0.9",
+    "e3db-client-interface": "^0.0.11",
     "es6-promise": "^4.2.4",
     "isomorphic-fetch": "^2.2",
     "js-md5": "^0.7.3",
