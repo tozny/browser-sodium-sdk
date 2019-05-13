@@ -386,9 +386,9 @@ readFile(client)
 The `Client.readLargeFile` method returns a JavaScript Blob type object of the decrypted bytes and a TozStore File object.  
 
 
-<!-- ## Local Encryption & Decryption
+## Local Encryption & Decryption
 
-The TozStore SDK allows you to encrypt documents for local storage, which can be decrypted later, by the client that created the document or any client with which the document has been `shared`. Note that locally encrypted documents _cannot_ be written directly to E3DB -- they must be decrypted locally and written using the `write` or `update` methods.
+The TozStore SDK allows you to encrypt documents for local storage, which can be decrypted later, by the client that created the document or any client with which the document has been `shared`. Note that locally encrypted documents _cannot_ be written directly to TozStore -- they must be decrypted locally and written using the `write` or `update` methods.
 
 Local encryption (and decryption) requires multiple steps:
 
@@ -399,47 +399,65 @@ Local encryption (and decryption) requires multiple steps:
 Here is an example of encrypting a document locally:
 
 ```js
-const e3db = require('e3db')
 
-let client = new e3db.Client(/* config */)
+const localEncrypt = async (client) => {
 
-let document = {
-  line:   "Say I'm the only bee in your bonnet",
-  song:   'Birdhouse in Your Soul',
-  artist: 'They Might Be Giants'
-}
+  let document = {
+    line:   "Say I'm the only bee in your bonnet",
+    song:   'Birdhouse in Your Soul',
+    artist: 'They Might Be Giants'
+  }
 
-async function main() {
   let eak = await client.createWriterKey('lyric')
 
-  let encrypted = await client.encrypt('lyric', document, eak)
-
+  let encrypted = await client.localEncrypt('lyric', document, eak, {metaKey1: 'plainVal1'})
+ 
+  console.log(encrypted)
+  
   // Write record to storage in suitable format.
+
 }
-main()
+localEncrypt(client)
+
 ```
 
 ## Local Decryption of Shared Records
 
-When two clients have a sharing relationship, the "reader" can locally decrypt any documents encrypted by the "writer," without using E3DB for storage.
+When two clients have a sharing relationship, the "reader" can locally decrypt any documents encrypted by the "writer," without using TozStore for storage.
 
 The 'writer' must first share records with a 'reader', using the `share` method. The 'reader' can then decrypt any locally encrypted records as follows:
 
 ```js
-const e3db = require('e3db')
+const localDecrypt = async (client) => {
 
-let client = new e3db.Client(/* config */)
+  // An encrypted record is needed to decrypt.  
 
-let writerId = '' // UUID of the record creator
-let encrypted = '' // read encrypted record from local storage
+  let document = {
+    line:   "Say I'm the only bee in your bonnet",
+    song:   'Birdhouse in Your Soul',
+    artist: 'They Might Be Giants'
+  }
 
-async function main() {
-  let eak = await client.getReaderKey(writerId, writerId, 'lyric') // Encrypted access key for the reader
-  
-  let record = await client.decrypt(encrypted, eak)
+  let eak = await client.createWriterKey('lyric')
+
+  let encrypted = await client.localEncrypt('lyric', document, eak, {metaKey1: 'plainVal1'})
+  // Write record to storage in suitable format.
+  let writerId = client.config.clientId
+
+  // The client can share that record type with another client.
+  const client2 = await createClient()
+  const readerClientId = client2.config.clientId
+  const share = await client.share('lyric', readerClientId)
+  console.log(share)
+
+  // The second client can now read the shared record type.  
+  let eak2 = await client2.getReaderKey(writerId, writerId, 'lyric') // Encrypted access key for the reader
+  let record = await client2.localDecrypt(encrypted, eak2)
+  console.log(record)
 }
-main()
-``` -->
+localDecrypt(client)
+
+```
 
 ## Document Signing & Verification
 
