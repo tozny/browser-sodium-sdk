@@ -20,7 +20,7 @@ To install with NPM add the following to your `package.json` file:
 
 ```
 "dependencies": {
-    "e3db": "^1.2"
+    "tozny-browser-sodium-sdk": "^0.0.13"
 }
 ```
 
@@ -451,46 +451,48 @@ Every TozStore client created with this SDK is capable of signing documents and 
 To create a signature, use the `sign` method:
 
 ```js
-const e3db = require('e3db')
+const { Config, Client, tozStoreTypes } = require('tozny-browser-sodium-sdk')
 
-let client = new e3db.Client(/* config */)
+const signDoc = async (client) => {
+ let data = new tozStoreTypes.RecordData(document)
+ let meta = new tozStoreTypes.Meta(client.config.clientId, client.config.clientId, 'lyric', {})
 
-let document = {
-  line:   "Say I'm the only bee in your bonnet",
-  song:   'Birdhouse in Your Soul',
-  artist: 'They Might Be Giants'
-}
-
-async function main() {
- let data = new RecordData(document)
- let meta = new Meta(client.config.clientId, client.config.clientId, 'lyric', {})
-
- let recordInfo = new RecordInfo(meta, data)
+ let recordInfo = new tozStoreTypes.RecordInfo(meta, data)
  let signature = await client.sign(recordInfo)
 
- let signed = new Record(meta, data, signature)
+ let signed = new tozStoreTypes.Record(meta, data, signature)
+ console.log('signed', signed)
 }
-main()
+
+signDoc(client)
+
 ```
 
 To verify a document, use the verify method. Here, we use the same object instances as above. `client.config` holds the private & public keys for the client. (Note that, in general, verify requires the public signing key of the client that wrote the record):
 
 ```js
-async function verify() {
-  let signedDocument = new SignedDocument(recordInfo, signature)
-  let verified = await client.verify(signedDocument, client.config.publicSignKey)
-  if (! verified) {
-    // Document failed verification, indicate an error as appropriate
-  }
+const verify = async (client) => {
+ let data = new tozStoreTypes.RecordData(document)
+ let meta = new tozStoreTypes.Meta(client.config.clientId, client.config.clientId, 'lyric', {})
+
+ let recordInfo = new tozStoreTypes.RecordInfo(meta, data)
+ let signature = await client.sign(recordInfo)
+
+ let signed = new tozStoreTypes.Record(meta, data, signature)
+ console.log('signed', signed)
+
+ let signedDocument = new tozStoreTypes.SignedDocument(recordInfo, signature)
+ let verified = await client.verify(signedDocument, client.config.publicSigningKey)
+ if (! verified) {
+   // Document failed verification, indicate an error as appropriate
+ }
+ console.log(verified)
 }
-verify()
+
+verify(client)
 ```
-
-<!-- ## More examples
-
-See [the simple example code](https://github.com/tozny/e3db-js/blob/master/examples/simple.js) for runnable detailed examples.
 
 ## Documentation
 
-General E3DB documentation is [on our web site](https://tozny.com/documentation/e3db/). -->
+General TozStore documentation is [on our web site](https://developers.tozny.com/).
 
