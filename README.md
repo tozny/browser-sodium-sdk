@@ -20,7 +20,7 @@ To install with NPM add the following to your `package.json` file:
 
 ```
 "dependencies": {
-    "tozny-browser-sodium-sdk": "^0.0.13"
+    "tozny-browser-sodium-sdk": "^0.0.14"
 }
 ```
 
