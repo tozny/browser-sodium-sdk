@@ -12,13 +12,15 @@ Your use of TozStore must abide by our [Terms of Service](https://github.com/toz
 
 # Getting Started
 
+To get familiar with TozStore, you can run the following code samples in a sandbox and follow the changes being made in the Tozny Dashboard.  
+
 ## NPM Installation
 
 To install with NPM add the following to your `package.json` file:
 
 ```
 "dependencies": {
-    "e3db": "^1.2"
+    "tozny-browser-sodium-sdk": "^0.0.13"
 }
 ```
 
@@ -199,7 +201,7 @@ console.log(record)
 
 ## Querying records
 
-E3DB supports many options for querying records based on the fields stored in record metadata. Refer to the API documentation for the complete set of options that can be passed to `Client.query`.
+TozStore supports many options for querying records based on the fields stored in record metadata. Refer to the API documentation for the complete set of options that can be passed to `Client.query`.
 
 ```js
 
@@ -219,9 +221,174 @@ console.log(records)
 
 In this example, the `Client.query` method returns an array that contains each record that matches the query.
 
+## Read a record by record id 
+
+```
+const read = async (client) => {
+
+    // The Client.query method is used in this example to get a record id.
+
+    let data = true
+    let writer = null
+    let record = null
+    let type = 'test-type'
+    let records = await client.query(data, writer, record, type).next()
+    const recordId = records[0].meta.recordId
+
+    let readRecord = await client.read(recordId)  
+    return readRecord
+}
+
+const readRecord = read(client)
+console.log(readRecord)
+
+```
+
+## Share records by type
+
+```
+const share = async (client) => {
+
+    // A second client needs to exist to share records. 
+    const client2 = await createClient()
+
+    // This client needs a record type to share.  
+    const sharedType = 'shared-type'
+    const recordData = {
+        firstKey: 'firstVal',
+        secondKey: 'secondVal'
+    }
+    const plainMeta = { 
+        plainOne: '1',
+        plainTwo: '2'
+    }
+    await client2.write(sharedType, recordData, plainMeta)
+    
+    // Now this client can share with the first client.
+    const shared = await client2.share(sharedType, client.config.clientId)
+    console.log(shared)
+
+    // And the first client can now read that record.
+    let data = true
+    let writer = client2.config.clientId
+    let record = null
+    const sharedRecords = await client.query(data, writer, record, sharedType).next()
+    console.log(sharedRecords)
+}
+
+share(client)
+```
+
+## Revoke record share by type 
+
+```
+const revoke = async (client) => {
+
+    // A second client needs to exist to share records. 
+    const client2 = await createClient()
+
+    // This client needs a record type to share.  
+    const sharedType = 'shared-type'
+    const recordData = {
+        firstKey: 'firstVal',
+        secondKey: 'secondVal'
+    }
+    const plainMeta = { 
+        plainOne: '1',
+        plainTwo: '2'
+    }
+    await client2.write(sharedType, recordData, plainMeta)
+    
+    // Now this client can share with the first client.
+    const shared = await client2.share(sharedType, client.config.clientId)
+    console.log(shared)
+
+    // And the first client can now read that record.
+    let data = true
+    let writer = client2.config.clientId
+    let record = null
+    const sharedRecords = await client.query(data, writer, record, sharedType).next()
+    console.log(sharedRecords)
+
+    // But the second client can revoke the share.  
+    const revoke = await client2.revoke(sharedType, client.config.clientId)
+    console.log(revoke)
+
+    // The first client will no longer be able to read that type.  
+    const revokeOfShared = await client.query(data, writer, record, sharedType).next()
+    console.log(revokeOfShared)
+}
+
+revoke(client)
+
+```
+
+## Write Large File 
+
+The `Client.writeLargeFile` method expects a file parameter as a JavaScript File object type along with a record type and an optional object of plaintext metadata.  This type of file can be gathered with an input.
+
+```
+  <input type="file" id="files" name="files[]" />  
+
+``` 
+
+```
+const writeFile = async (client) => {
+    const exampleFile = new File(
+        ["A first line of text.  And a second line of text.  Lastly, a third line of text."], 
+        "filename.txt", 
+        {type: "text/plain"}
+    )
+    const plainMeta = {
+        key1: 'val1',
+        key2: 'val2'
+    }
+
+    const writtenFile = await client.writeLargeFile('file-type', exampleFile, plainMeta)
+    console.log(writtenFile)
+}
+
+writeFile(client)
+
+``` 
+
+The `Client.writeLargeFile` method will return a TozStore File type with information about the record including plaintext metadata and a record id that can be used to download the record.
+
+## Read Large File 
+
+The `Client.readLargeFile` method takes a record id and a destination file name.
+
+```
+const readFile = async (client) => {
+    const exampleFile = new File(
+        ["Line one.  Line two. Line three"], 
+        "exampleFile.txt", 
+        {type: "text/plain"}
+    )
+    const plainMeta = {
+        keyOne: 'valueOne',
+        keyTwo: 'valueTwo'
+    }
+
+    const writtenFile = await client.writeLargeFile('file-type', exampleFile, plainMeta)
+    const fileId = writtenFile.recordId
+
+    const readFile = await client.readLargeFile(fileId, 'destination_filename')
+    console.log(readFile)
+    const text = await (new Response(readFile[0])).text()
+    console.log(text)
+
+}
+
+readFile(client)
+```
+
+The `Client.readLargeFile` method returns a JavaScript Blob type object of the decrypted bytes and a TozStore File object.  
+
+
 ## Local Encryption & Decryption
 
-The E3DB SDK allows you to encrypt documents for local storage, which can be decrypted later, by the client that created the document or any client with which the document has been `shared`. Note that locally encrypted documents _cannot_ be written directly to E3DB -- they must be decrypted locally and written using the `write` or `update` methods.
+The TozStore SDK allows you to encrypt documents for local storage, which can be decrypted later, by the client that created the document or any client with which the document has been `shared`. Note that locally encrypted documents _cannot_ be written directly to TozStore -- they must be decrypted locally and written using the `write` or `update` methods.
 
 Local encryption (and decryption) requires multiple steps:
 
@@ -232,51 +399,69 @@ Local encryption (and decryption) requires multiple steps:
 Here is an example of encrypting a document locally:
 
 ```js
-const e3db = require('e3db')
 
-let client = new e3db.Client(/* config */)
+const localEncrypt = async (client) => {
 
-let document = {
-  line:   "Say I'm the only bee in your bonnet",
-  song:   'Birdhouse in Your Soul',
-  artist: 'They Might Be Giants'
-}
+  let document = {
+    line:   "Say I'm the only bee in your bonnet",
+    song:   'Birdhouse in Your Soul',
+    artist: 'They Might Be Giants'
+  }
 
-async function main() {
   let eak = await client.createWriterKey('lyric')
 
-  let encrypted = await client.encrypt('lyric', document, eak)
-
+  let encrypted = await client.localEncrypt('lyric', document, eak, {metaKey1: 'plainVal1'})
+ 
+  console.log(encrypted)
+  
   // Write record to storage in suitable format.
+
 }
-main()
+localEncrypt(client)
+
 ```
 
 ## Local Decryption of Shared Records
 
-When two clients have a sharing relationship, the "reader" can locally decrypt any documents encrypted by the "writer," without using E3DB for storage.
+When two clients have a sharing relationship, the "reader" can locally decrypt any documents encrypted by the "writer," without using TozStore for storage.
 
 The 'writer' must first share records with a 'reader', using the `share` method. The 'reader' can then decrypt any locally encrypted records as follows:
 
 ```js
-const e3db = require('e3db')
+const localDecrypt = async (client) => {
 
-let client = new e3db.Client(/* config */)
+  // An encrypted record is needed to decrypt.  
 
-let writerId = '' // UUID of the record creator
-let encrypted = '' // read encrypted record from local storage
+  let document = {
+    line:   "Say I'm the only bee in your bonnet",
+    song:   'Birdhouse in Your Soul',
+    artist: 'They Might Be Giants'
+  }
 
-async function main() {
-  let eak = await client.getReaderKey(writerId, writerId, 'lyric') // Encrypted access key for the reader
-  
-  let record = await client.decrypt(encrypted, eak)
+  let eak = await client.createWriterKey('lyric')
+
+  let encrypted = await client.localEncrypt('lyric', document, eak, {metaKey1: 'plainVal1'})
+  // Write record to storage in suitable format.
+  let writerId = client.config.clientId
+
+  // The client can share that record type with another client.
+  const client2 = await createClient()
+  const readerClientId = client2.config.clientId
+  const share = await client.share('lyric', readerClientId)
+  console.log(share)
+
+  // The second client can now read the shared record type.  
+  let eak2 = await client2.getReaderKey(writerId, writerId, 'lyric') // Encrypted access key for the reader
+  let record = await client2.localDecrypt(encrypted, eak2)
+  console.log(record)
 }
-main()
+localDecrypt(client)
+
 ```
 
 ## Document Signing & Verification
 
-Every E3DB client created with this SDK is capable of signing documents and verifying the signature associated with a document. (Note that E3DB records are also stored with a signature attached, but verification of that is handled internally to the SDK.) By attaching signatures to documents, clients can be confident in:
+Every TozStore client created with this SDK is capable of signing documents and verifying the signature associated with a document. (Note that TozStore records are also stored with a signature attached, but verification of that is handled internally to the SDK.) By attaching signatures to documents, clients can be confident in:
 
 - Document integrity - the document's contents have not been altered (because the signature will not match).
 - Proof-of-authorship - The author of the document held the private signing key associated with the given public key when the document was created.
@@ -284,46 +469,48 @@ Every E3DB client created with this SDK is capable of signing documents and veri
 To create a signature, use the `sign` method:
 
 ```js
-const e3db = require('e3db')
+const { Config, Client, tozStoreTypes } = require('tozny-browser-sodium-sdk')
 
-let client = new e3db.Client(/* config */)
+const signDoc = async (client) => {
+ let data = new tozStoreTypes.RecordData(document)
+ let meta = new tozStoreTypes.Meta(client.config.clientId, client.config.clientId, 'lyric', {})
 
-let document = {
-  line:   "Say I'm the only bee in your bonnet",
-  song:   'Birdhouse in Your Soul',
-  artist: 'They Might Be Giants'
-}
-
-async function main() {
- let data = new RecordData(document)
- let meta = new Meta(client.config.clientId, client.config.clientId, 'lyric', {})
-
- let recordInfo = new RecordInfo(meta, data)
+ let recordInfo = new tozStoreTypes.RecordInfo(meta, data)
  let signature = await client.sign(recordInfo)
 
- let signed = new Record(meta, data, signature)
+ let signed = new tozStoreTypes.Record(meta, data, signature)
+ console.log('signed', signed)
 }
-main()
+
+signDoc(client)
+
 ```
 
 To verify a document, use the verify method. Here, we use the same object instances as above. `client.config` holds the private & public keys for the client. (Note that, in general, verify requires the public signing key of the client that wrote the record):
 
 ```js
-async function verify() {
-  let signedDocument = new SignedDocument(recordInfo, signature)
-  let verified = await client.verify(signedDocument, client.config.publicSignKey)
-  if (! verified) {
-    // Document failed verification, indicate an error as appropriate
-  }
+const verify = async (client) => {
+ let data = new tozStoreTypes.RecordData(document)
+ let meta = new tozStoreTypes.Meta(client.config.clientId, client.config.clientId, 'lyric', {})
+
+ let recordInfo = new tozStoreTypes.RecordInfo(meta, data)
+ let signature = await client.sign(recordInfo)
+
+ let signed = new tozStoreTypes.Record(meta, data, signature)
+ console.log('signed', signed)
+
+ let signedDocument = new tozStoreTypes.SignedDocument(recordInfo, signature)
+ let verified = await client.verify(signedDocument, client.config.publicSigningKey)
+ if (! verified) {
+   // Document failed verification, indicate an error as appropriate
+ }
+ console.log(verified)
 }
-verify()
+
+verify(client)
 ```
-
-<!-- ## More examples
-
-See [the simple example code](https://github.com/tozny/e3db-js/blob/master/examples/simple.js) for runnable detailed examples.
 
 ## Documentation
 
-General E3DB documentation is [on our web site](https://tozny.com/documentation/e3db/). -->
+General TozStore documentation is [on our web site](https://developers.tozny.com/).
 
