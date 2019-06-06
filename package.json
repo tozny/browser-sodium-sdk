@@ -48,7 +48,7 @@
     "prepare": "babel lib -d dist --ignore lib/__tests__",
     "pretest": "babel lib -d dist --ignore lib/__tests__",
     "precommit": "lint-staged",
-    "test": "jest",
+    "test": "karma start karma.conf-testingbot.js",
     "testcov": "jest --coverage",
     "build": "babel lib -d dist --ignore lib/__tests__ && npx webpack --config webpack.config.js",
     "profile": "jest profile.test"
