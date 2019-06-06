@@ -1,0 +1,20 @@
+sudo: false
+language: node_js
+node_js:
+  - "5.0"
+
+before_install:
+  - npm i -g npm
+  - npm config set loglevel warn
+  - echo "travis:rocks" > ~/.testingbot
+
+script:
+  - karma start karma.conf-testingbot.js
+
+notifications:
+  email: false
+
+env:
+  global:
+  - secure: PplppfLcM4ADwPvMBnm6R2HEN8udH920x/tCTZtSOibHgCUyHIDk+Y70PeZpXRFVmYD3KWmX/yYDBnqHIkjY7vTrs91rPyNSJ29nyM2HzA2TvshketdMLIAAt7ozjFI98ls6Mhu0+8FsYy2zrAQcPLJmNlw/jYYbJai2vFjcz/u4YkL4nq0EJV2wN/OCZS0q6cY7gHAnxDBIZIWzPpTX3waxLHbxShmNT23SC+znyR5KedtWKhU8NGaJQdmX/UGwEST+ma1u8EJnHYnN17F3jf9v215vcIZCFqE6AtKkmX/+SI+PgcdEIPMoMUU3D+7MYV1Z5OZFZJ/z1JxlztG7bduc/L1KpcOxXrjV2FDJ+EIJw1DHjQC3J0/4UsyK0MqnM6dOHHjdyhVr+2PYIs0x3FwVGT1tGWuZ3sdIkeNYVsdtHQh1lXJU0vvceilYx8ajrCIJDfmvVbPmFGhDl3/lMgz93KNj0KRJ47S+eorG22w5HCBizPW98PR9q0/DbKo55MUptz6Zvvfb4jTUGbSCOZB4s9Qg1smBx/gIx7WmcfbXm/SZ3eYPmaZ/3Tl/dLgu35LdxOcE3rbn2PKL/GBEuE/PUbqAAQ44J+vS9R/N8f6wA0ZDEUxrWcfUmhgqnr3juFyQ+XdfAiRkMkF8w28hzfplqz6OZyqolCTKJ1phJ+0=
+  - secure: MPdgY4mYOIGycvqVSYsvGZ48IYpoqGHtGxzJVxjWWbK8qcycv+ET+5hAbQDDcXP3THxFOcPEeq8gdVEe4X0Y7e5klybAdPpRUuP8iekSYqp8Yv0kDirbLboJ0z757eTWTbTEpT/0m+ZHI5F724iizb8UOIkvxS0ewKP2+qp8N4C7JiUV48mfEQP2w2D1292IcSeiv0Nic0tGIvwGWaH/hk60eqzU0BKWoyD9HUgundnkHE3rgk72fqn6Lmpx7AFYVTuuNVm5G0q9oVAFjL2IkoPNDzvlQbgA2IVLplPFSJsPcuHjPQgITBt1ZkIwlcql3IG4vi/iBVAuAFC7bvZ+M7t+Oi5B1Tga2ekHuHUwRMEvwSYNrL9mdYJtrl89YJhHtNoiyGUywP3zsq4cHFfdF76mkWWPZYIbLAL0H4Uwq7DHQA4VpBmB0K7QF/IS60GGlJkkTDi8cFGkFQKioaRgWWy+e4zYlyX6VO0ZbIIt+pONZqgH6keZGtpXvtItMCfVnUmTwawoNp6kcpaUs1i6UkddRrDJnZBqfGu0eR3u0GYBN4NIveEiIhzfd3fcJZgkgKFAzmLwaelqwPLN1DhQhfeFPX/BhfFvt+bZvsNQ808SrwHSFRvPTHVCcI+J1dYJmeaPduBb7D4SUI9GpDjo90UXdR5G6l7vPfYwdCiJTFc=

@@ -1,0 +1,18 @@
+Jun 06, 2019 3:16:40 PM com.testingbot.tunnel.App main
+INFO: Logging to file testingbot_tunnel.log
+Jun 06, 2019 3:16:40 PM com.testingbot.tunnel.App setJettyPort
+INFO: Setting up Local Proxy Port 58213
+Jun 06, 2019 3:16:44 PM com.testingbot.tunnel.App boot
+INFO: Please wait while your personal Tunnel Server is being setup. Shouldn't take more than a minute.
+When the tunnel is ready you will see a message "You may start your tests."
+Jun 06, 2019 3:16:46 PM com.testingbot.tunnel.App tunnelReady
+INFO: Successfully authenticated, setting up forwarding.
+Jun 06, 2019 3:16:47 PM com.testingbot.tunnel.App getSSHPort
+INFO: SSH Port 58244
+Jun 06, 2019 3:16:57 PM com.testingbot.tunnel.App getSSHPort
+INFO: SSH Port 58244
+Jun 06, 2019 3:16:59 PM com.testingbot.tunnel.App tunnelReady
+INFO: The Tunnel is ready, ip: 109.68.165.150
+You may start your tests.
+Jun 06, 2019 3:16:59 PM com.testingbot.tunnel.App tunnelReady
+INFO: To stop the tunnel, press CTRL+C
