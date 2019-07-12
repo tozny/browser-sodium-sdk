@@ -1,6 +1,8 @@
 node_modules
 coverage
-dist
+dist/*
+!dist/browser
 .env
 .vscode
 .DS_Store
+testingbot_tunnel
