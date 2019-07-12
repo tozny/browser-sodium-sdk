@@ -31,8 +31,6 @@
     "eslint-plugin-prettier": "^2.6.0",
     "husky": "^0.14.3",
     "jasmine-core": "^3.4.0",
-    "jest": "^24.8.0",
-    "jest-cli": "^24.8.0",
     "jest-fetch-mock": "^2.0.1",
     "karma": "^0.13.22",
     "karma-chrome-launcher": "^0.1.12",
@@ -43,16 +41,17 @@
     "karma-testingbot-launcher": "",
     "lint-staged": "^7.0.4",
     "prettier": "^1.12.1",
-    "webpack": "^4.33.0",
-    "webpack-cli": "^3.3.2"
+    "webpack": "^4.35.3",
+    "webpack-cli": "^3.3.5"
   },
   "scripts": {
-    "prepare": "babel lib -d dist --ignore lib/__tests__",
-    "pretest": "babel lib -d dist --ignore lib/__tests__",
+    "prepare": "babel lib -d dist --ignore lib/__tests__ --ignore lib/browser.js",
+    "pretest": "npm run build",
     "precommit": "lint-staged",
     "test": "karma start karma.conf.js",
     "testcov": "jest --coverage",
-    "build": "babel lib -d dist --ignore lib/__tests__ && npx webpack --config webpack.config.js",
+    "prebuild": "npm run prepare",
+    "build": "npx webpack --config webpack.config.js",
     "profile": "jest profile.test"
   },
   "lint-staged": {

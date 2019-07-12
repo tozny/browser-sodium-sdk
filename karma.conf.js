@@ -24,7 +24,7 @@ module.exports = function(config) {
     frameworks: ['jasmine'],
 
     // List of files / patterns to load in the browser
-    files: ['browserfied/browser.js', 'test/*.js'],
+    files: ['dist/browser/tozny-browser-sodium-sdk.min.js', 'test/*.js'],
 
     // Test results reporter to use
     // possible values: 'dots', 'progress'
