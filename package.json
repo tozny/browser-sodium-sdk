@@ -12,6 +12,7 @@
   "files": [
     "dist"
   ],
+  "main": "dist/index.js",
   "keywords": [
     "encryption",
     "encrypted-store",
