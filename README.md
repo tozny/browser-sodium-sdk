@@ -1,9 +1,5 @@
 # Tozny Storage (TozStore) Browser Sodium SDK (JavaScript For The Browser)
 
-## WARNING
-
-This is alpha software for Tozny internal development. Tozny does not guarantee that this library is stable and does not offer support for usage at this time.  Please use our existing stable [JavaScript SDK](https://github.com/tozny/e3db-js).
-
 The Tozny Storage platform (TozStore) is an end-to-end encrypted storage platform with powerful sharing and consent management features.
 
 ## Terms of Service
@@ -20,7 +16,7 @@ To install with NPM add the following to your `package.json` file:
 
 ```
 "dependencies": {
-    "tozny-browser-sodium-sdk": "^0.0.14"
+    "tozny-browser-sodium-sdk": "^1.0.0"
 }
 ```
 
