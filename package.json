@@ -112,6 +112,6 @@
     "es6-promise": "^4.2.4",
     "isomorphic-fetch": "^2.2",
     "js-md5": "^0.7.3",
-    "tozny-libsodium-wrappers": "^0.7.6"
+    "libsodium-wrappers": "^0.7.5"
   }
 }
