@@ -12,7 +12,6 @@
   "files": [
     "dist"
   ],
-  "private": true,
   "keywords": [
     "encryption",
     "encrypted-store",
