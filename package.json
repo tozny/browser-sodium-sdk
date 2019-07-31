@@ -1,6 +1,6 @@
 {
   "name": "tozny-browser-sodium-sdk",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Sodium mode browser SDK for Tozny Storage (TozStore) clients.",
   "homepage": "https://github.com/tozny/browser-sodium-sdk",
   "author": {
