@@ -104,7 +104,7 @@
     "testEnvironment": "jsdom"
   },
   "dependencies": {
-    "babel-runtime": "^6.26",
+    "@babel/runtime": "^7.5.5",
     "base64url": "^3.0.1",
     "dotenv": "^6.1.0",
     "e3db-client-interface": "^0.0.13",
