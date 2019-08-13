@@ -1,17 +1,29 @@
 module.exports = function(config) {
   // Browsers to run on Sauce Labs
   var customLaunchers = {
-    SauceLabsChrome: {
+    SauceLabsChromeWindows: {
       base: 'SauceLabs',
       browserName: 'chrome',
-      version: '68.0',
-      platform: 'OS X 10.12'
+      version: 'latest',
+      platform: 'Windows 10'
     },
-    SauceLabsFirefox: {
+    SauceLabsChromeOSX: {
+      base: 'SauceLabs',
+      browserName: 'chrome',
+      version: 'latest',
+      platform: 'OS X 10.14'
+    },
+    SauceLabsFirefoxWindows: {
       base: 'SauceLabs',
       browserName: 'firefox',
-      version: '64.0',
+      version: 'latest',
       platform: 'Windows 10'
+    },
+    SauceLabsFirefoxOSX: {
+      base: 'SauceLabs',
+      browserName: 'firefox',
+      version: 'latest',
+      platform: 'OS X 10.14'
     }
   }
 
