@@ -1,5 +1,7 @@
 # Tozny Storage (TozStore) Browser Sodium SDK (JavaScript For The Browser)
 
+[![Build Status](https://travis-ci.org/tozny/browser-sodium-sdk.svg?branch=master)](https://travis-ci.org/tozny/browser-sodium-sdk)
+
 The Tozny Storage platform (TozStore) is an end-to-end encrypted storage platform with powerful sharing and consent management features.
 
 ## Terms of Service
