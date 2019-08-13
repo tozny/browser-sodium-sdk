@@ -10,8 +10,6 @@ script:
 - karma start karma.conf-testingbot.js
 addons:
   sauce_connect: true
-    username: "willmichael"
-  jwt:
 env:
   global:
   - secure: PplppfLcM4ADwPvMBnm6R2HEN8udH920x/tCTZtSOibHgCUyHIDk+Y70PeZpXRFVmYD3KWmX/yYDBnqHIkjY7vTrs91rPyNSJ29nyM2HzA2TvshketdMLIAAt7ozjFI98ls6Mhu0+8FsYy2zrAQcPLJmNlw/jYYbJai2vFjcz/u4YkL4nq0EJV2wN/OCZS0q6cY7gHAnxDBIZIWzPpTX3waxLHbxShmNT23SC+znyR5KedtWKhU8NGaJQdmX/UGwEST+ma1u8EJnHYnN17F3jf9v215vcIZCFqE6AtKkmX/+SI+PgcdEIPMoMUU3D+7MYV1Z5OZFZJ/z1JxlztG7bduc/L1KpcOxXrjV2FDJ+EIJw1DHjQC3J0/4UsyK0MqnM6dOHHjdyhVr+2PYIs0x3FwVGT1tGWuZ3sdIkeNYVsdtHQh1lXJU0vvceilYx8ajrCIJDfmvVbPmFGhDl3/lMgz93KNj0KRJ47S+eorG22w5HCBizPW98PR9q0/DbKo55MUptz6Zvvfb4jTUGbSCOZB4s9Qg1smBx/gIx7WmcfbXm/SZ3eYPmaZ/3Tl/dLgu35LdxOcE3rbn2PKL/GBEuE/PUbqAAQ44J+vS9R/N8f6wA0ZDEUxrWcfUmhgqnr3juFyQ+XdfAiRkMkF8w28hzfplqz6OZyqolCTKJ1phJ+0=
