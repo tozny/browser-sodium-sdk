@@ -40,6 +40,8 @@ module.exports = function(config) {
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
     logLevel: config.LOG_WARN,
 
+    // `tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER` and `startConnect: false` must be set to work with travis:
+    // https://github.com/karma-runner/karma-sauce-launcher/issues/73
     sauceLabs: {
       testName: 'Travis Karma and Sauce Labs Test',
       tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
