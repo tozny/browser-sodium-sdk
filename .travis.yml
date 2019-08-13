@@ -8,7 +8,7 @@ before_install:
 - echo "travis:rocks" > ~/.testingbot
 script:
 - curl -v https://saucelabs.com/ 
-- karma start karma.conf.js
+- karma start travis-karma.conf.js
 addons:
   sauce_connect: true
 env:
