@@ -41,7 +41,7 @@ module.exports = function(config) {
     logLevel: config.LOG_WARN,
 
     sauceLabs: {
-      testName: 'Karma and Sauce Labs demo'
+      testName: 'Local Karma and Sauce Labs Test'
     },
     captureTimeout: 120000,
     customLaunchers: customLaunchers,
