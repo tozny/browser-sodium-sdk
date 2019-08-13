@@ -1,7 +1,7 @@
 sudo: false
 language: node_js
 node_js:
-- '5.0'
+- '10.15.3'
 before_install:
 - npm i -g npm
 - npm config set loglevel warn
