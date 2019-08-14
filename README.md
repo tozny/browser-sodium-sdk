@@ -10,7 +10,7 @@ Your use of TozStore must abide by our [Terms of Service](https://github.com/toz
 
 # Getting Started
 
-To get familiar with TozStore, you can run the following code samples in a sandbox and follow the changes being made in the Tozny Dashboard.
+To get familiar with TozStore, you can run the following code samples in ajadfkljsadfkjsandbox and follow the changes being made in the Tozny Dashboard.
 
 ## NPM Installation
 
