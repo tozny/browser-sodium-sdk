@@ -11,7 +11,7 @@ module.exports = function(config) {
       base: 'SauceLabs',
       browserName: 'chrome',
       version: 'latest',
-      platform: 'OS X 10.14'
+      platform: 'OS X 10.12'
     },
     SauceLabsFirefoxWindows: {
       base: 'SauceLabs',
@@ -23,7 +23,7 @@ module.exports = function(config) {
       base: 'SauceLabs',
       browserName: 'firefox',
       version: 'latest',
-      platform: 'OS X 10.14'
+      platform: 'OS X 10.12'
     }
   }
 
