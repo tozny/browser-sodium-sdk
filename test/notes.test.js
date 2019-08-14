@@ -11,8 +11,11 @@ describe('Notes', function() {
   var clientName
   var config
   var client
-
+  var originalTimeout
   beforeAll(async function() {
+    originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 100000
+
     cryptoKeys = await Client.generateKeypair()
     signingKeys = await Client.generateSigningKeypair()
     clientName =
@@ -28,6 +31,7 @@ describe('Notes', function() {
       true, // Determines whether client's credentials will be backed up
       apiUrl
     )
+
     config = new Config(
       clientCredentials.clientId,
       clientCredentials.apiKeyId,
@@ -39,7 +43,7 @@ describe('Notes', function() {
       signingKeys.privateKey
     )
     client = new Client(config)
-  })
+  }, 20000)
 
   it('can write and read a note', async function() {
     var note = await Client.writeNote(
@@ -58,5 +62,71 @@ describe('Notes', function() {
     expect(readNote.writerEncryptionKey).toBe(cryptoKeys.publicKey)
     expect(readNote.createdAt).toBeTruthy(true)
     expect(readNote.noteId).toBeTruthy(true)
-  })
+  }, 20000)
+
+  //   It('can write and delete a note', async function() {
+  //     var note = await Client.writeNote(
+  //       { secret: 'encrypted' },
+  //       signingKeys.publicKey,
+  //       cryptoKeys,
+  //       signingKeys,
+  //       {},
+  //       apiUrl
+  //     )
+  //     let deletedResp = await client.deleteNote(note.noteId)
+  //     expect(deletedResp.status).toBe(204)
+  //   })
+
+  // Test is temporarily unavaiable until non-static writeNote functionality is back
+  //   it('can write and read a note by name', async function() {
+  //     let noteName =
+  //       'randomNoteName' +
+  //       Math.random()
+  //         .toString(36)
+  //         .substr(2)
+
+  //     console.log('noteName', noteName)
+
+  //     var note = await client.writeNote(
+  //       { secret: 'readByName' },
+  //       signingKeys.publicKey,
+  //       cryptoKeys,
+  //       signingKeys,
+  //       { id_string: noteName },
+  //       apiUrl
+  //     )
+
+  //     let readNote = await client.readNoteByName(noteName)
+  //     expect(readNote.data.secret).toBe('readByName')
+  //     expect(readNote.writerSigningKey).toBe(signingKeys.publicKey)
+  //     expect(readNote.recipientSigningKey).toBe(signingKeys.publicKey)
+  //     expect(readNote.writerEncryptionKey).toBe(cryptoKeys.publicKey)
+  //     expect(readNote.createdAt).toBeTruthy(true)
+  //     expect(readNote.noteId).toBeTruthy(true)
+  //   })
+
+  //   it('cant delete a non-existent note', async function() {
+  //     console.log('is client instantiated second?', client)
+  //     await expectAsync(async function() {
+  //       console.log('is client instantiated inside expect async??', client)
+  //       return client.deleteNote('00000000-0o000-0000-0000-000000000000')
+  //     }).toBeRejected()
+  //   })
+
+  //   it('cant read guest-note twice', async function() {
+  //     var note = await Client.writeNote(
+  //       { secret: 'encrypted' },
+  //       signingKeys.publicKey,
+  //       cryptoKeys,
+  //       signingKeys,
+  //       {},
+  //       apiUrl
+  //     )
+  //     await client.readNote(note.noteId)
+  //     await expectAsync(client.readNote(note.noteId)).toBeRejected()
+  //   })
+
+  afterAll(function() {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout
+  }, 20000)
 })

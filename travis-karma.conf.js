@@ -5,25 +5,29 @@ module.exports = function(config) {
       base: 'SauceLabs',
       browserName: 'chrome',
       version: 'latest',
+      extendedDebugging: true,
       platform: 'Windows 10'
     },
     SauceLabsChromeOSX: {
       base: 'SauceLabs',
       browserName: 'chrome',
       version: 'latest',
-      platform: 'OS X 10.12'
+      extendedDebugging: true,
+      platform: 'macOS 10.12'
     },
     SauceLabsFirefoxWindows: {
       base: 'SauceLabs',
       browserName: 'firefox',
       version: 'latest',
+      extendedDebugging: true,
       platform: 'Windows 10'
     },
     SauceLabsFirefoxOSX: {
       base: 'SauceLabs',
       browserName: 'firefox',
       version: 'latest',
-      platform: 'OS X 10.12'
+      extendedDebugging: true,
+      platform: 'macOS 10.12'
     }
   }
 
@@ -36,15 +40,12 @@ module.exports = function(config) {
     frameworks: ['jasmine'],
 
     // List of files / patterns to load in the browser
-    files: ['dist/browser/tozny-browser-sodium-sdk.min.js', 'test/*.js'],
+    files: ['dist/browser/tozny-browser-sodium-sdk.min.js', 'test/notes.test.js'],
 
     // Test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
     reporters: ['progress', 'saucelabs'],
-
-    // Web server port
-    port: 9876,
 
     colors: true,
 
