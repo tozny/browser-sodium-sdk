@@ -4,10 +4,11 @@ The tests for this SDK must be run in a browser. Otherwise, the browser crypto A
 
 Currently, Tozny runs tests using Karma and Sauce Labs.
 
-To run tests on your machine, you need a Sauce Labs Account. Then you need to export two environment variables:
+To run tests on your machine, you need a Sauce Labs Account. Then you need to export three environment variables:
 
 export SAUCE_USERNAME=tozny
 export SAUCE_ACCESS_KEY=<access_key>
+export REGISTRATION_TOKEN=<from_tozny_dashboard> 
 
 You can then use the npm run test script to run the karma tests.
 
