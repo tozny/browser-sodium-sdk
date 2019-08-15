@@ -64,18 +64,18 @@ describe('Notes', function() {
     expect(readNote.noteId).toBeTruthy(true)
   }, 20000)
 
-  //   It('can write and delete a note', async function() {
-  //     var note = await Client.writeNote(
-  //       { secret: 'encrypted' },
-  //       signingKeys.publicKey,
-  //       cryptoKeys,
-  //       signingKeys,
-  //       {},
-  //       apiUrl
-  //     )
-  //     let deletedResp = await client.deleteNote(note.noteId)
-  //     expect(deletedResp.status).toBe(204)
-  //   })
+  it('can write and delete a note', async function() {
+    var note = await Client.writeNote(
+      { secret: 'encrypted' },
+      signingKeys.publicKey,
+      cryptoKeys,
+      signingKeys,
+      {},
+      apiUrl
+    )
+    let deletedResp = await client.deleteNote(note.noteId)
+    expect(deletedResp.status).toBe(204)
+  }, 20000)
 
   // Test is temporarily unavaiable until non-static writeNote functionality is back
   //   it('can write and read a note by name', async function() {
@@ -105,26 +105,24 @@ describe('Notes', function() {
   //     expect(readNote.noteId).toBeTruthy(true)
   //   })
 
-  //   it('cant delete a non-existent note', async function() {
-  //     console.log('is client instantiated second?', client)
-  //     await expectAsync(async function() {
-  //       console.log('is client instantiated inside expect async??', client)
-  //       return client.deleteNote('00000000-0o000-0000-0000-000000000000')
-  //     }).toBeRejected()
-  //   })
+  it('cant delete a non-existent note', async function() {
+    await expectAsync(
+      client.deleteNote('00000000-0o000-0000-0000-000000000000')
+    ).toBeRejected()
+  }, 20000)
 
-  //   it('cant read guest-note twice', async function() {
-  //     var note = await Client.writeNote(
-  //       { secret: 'encrypted' },
-  //       signingKeys.publicKey,
-  //       cryptoKeys,
-  //       signingKeys,
-  //       {},
-  //       apiUrl
-  //     )
-  //     await client.readNote(note.noteId)
-  //     await expectAsync(client.readNote(note.noteId)).toBeRejected()
-  //   })
+  it('cant read guest-note twice', async function() {
+    var note = await Client.writeNote(
+      { secret: 'encrypted' },
+      signingKeys.publicKey,
+      cryptoKeys,
+      signingKeys,
+      {},
+      apiUrl
+    )
+    await client.readNote(note.noteId)
+    await expectAsync(client.readNote(note.noteId)).toBeRejected()
+  }, 20000)
 
   afterAll(function() {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout
