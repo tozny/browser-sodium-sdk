@@ -18,7 +18,7 @@ To install with NPM add the following to your `package.json` file:
 
 ```
 "dependencies": {
-    "tozny-browser-sodium-sdk": "^1.0.2"
+    "tozny-browser-sodium-sdk": "^1.2.0"
 }
 ```
 
@@ -506,6 +506,76 @@ const verify = async (client) => {
 }
 
 verify(client)
+```
+
+## Identity
+
+### Set up an Identity connection
+
+Create a Tozny Identity realm using the Tozny Dashboard and note the realm name and ID and add those to your
+web application environment.
+
+```
+import Tozny from 'tozny-browser-sodium-sdk'
+// if using the pre-compiled version, this is `window.Tozny`
+
+const realmId = window.realmID
+const realmName = window.realmName
+
+const realmConfig = new Tozny.Identity.Config(realmId, realmName)
+const realmConnection = new Tozny.Identity(realmConfig)
+```
+
+The realm connection will then allow you to instantiate realm clients in using various methods.
+
+#### Login
+
+```
+const realmClient = realmConnection.login(username, password)
+```
+
+#### Register
+
+```
+const registrationToken = window.registrationToken
+const realmClient = realmConnection.login(username, password, registrationToken)
+```
+
+_note: This method does not provide any validation of passwords or strength checking. This should
+be done prior to calling this method_
+
+### Realm clients
+
+The client returned is the same in each case. You can use the connected client to write
+encrypted data using the provided tozny storage client, or fetch valid identity tokens used
+to make requests to relying applications.
+
+```
+const realmClient = realmConnection.login(username, password)
+realmClient.then(client => {
+  const secretData = {
+    secret: 'abc123'
+  }
+  const secretDataType = 'superSecret'
+  return client.storageClient.write(secretDataType, secretData))
+}).then(record => {
+  console.log(record)
+})
+realmClient.then(client => {
+    return client.tokenInfo()
+  })
+  .then(tokenInfo => {
+    console.log(tokenInfo)
+  })
+realmClient.then(client => {
+    return client.token()
+  })
+  .then(token => {
+    // this is the raw bearer token for use in requests. This method will always
+    // return a valid token, caching it for the valid period and refreshing it
+    // if the token expires within 5 minutes of the call.
+    console.log(token)
+  })
 ```
 
 ## Documentation
