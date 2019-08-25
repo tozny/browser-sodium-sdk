@@ -107,7 +107,7 @@
     "@babel/runtime": "^7.5.5",
     "base64url": "^3.0.1",
     "dotenv": "^6.1.0",
-    "e3db-client-interface": "^0.3.0-alpha.4",
+    "e3db-client-interface": "github:tozny/js-sdk-client-interface#features/DASH-78-v3-dashboard-login-register",
     "es6-promise": "^4.2.4",
     "isomorphic-fetch": "^2.2",
     "js-md5": "^0.7.3",
