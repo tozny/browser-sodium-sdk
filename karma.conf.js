@@ -7,28 +7,28 @@ module.exports = function(config) {
       version: 'latest',
       extendedDebugging: true,
       platform: 'Windows 10'
-    },
-    SauceLabsChromeOSX: {
-      base: 'SauceLabs',
-      browserName: 'chrome',
-      version: 'latest',
-      extendedDebugging: true,
-      platform: 'macOS 10.12'
-    },
-    SauceLabsFirefoxWindows: {
-      base: 'SauceLabs',
-      browserName: 'firefox',
-      version: 'latest',
-      extendedDebugging: true,
-      platform: 'Windows 10'
-    },
-    SauceLabsFirefoxOSX: {
-      base: 'SauceLabs',
-      browserName: 'firefox',
-      version: 'latest',
-      extendedDebugging: true,
-      platform: 'macOS 10.12'
     }
+    // SauceLabsChromeOSX: {
+    //   base: 'SauceLabs',
+    //   browserName: 'chrome',
+    //   version: 'latest',
+    //   extendedDebugging: true,
+    //   platform: 'macOS 10.12'
+    // },
+    // SauceLabsFirefoxWindows: {
+    //   base: 'SauceLabs',
+    //   browserName: 'firefox',
+    //   version: 'latest',
+    //   extendedDebugging: true,
+    //   platform: 'Windows 10'
+    // },
+    // SauceLabsFirefoxOSX: {
+    //   base: 'SauceLabs',
+    //   browserName: 'firefox',
+    //   version: 'latest',
+    //   extendedDebugging: true,
+    //   platform: 'macOS 10.12'
+    // }
   }
 
   config.set({

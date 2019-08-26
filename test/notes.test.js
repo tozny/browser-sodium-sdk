@@ -14,7 +14,6 @@ describe('Notes', function() {
   var client
   var originalTimeout
   beforeAll(async function() {
-    console.log('Reg token', regToken)
     originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 100000
 
@@ -48,10 +47,9 @@ describe('Notes', function() {
   }, 20000)
 
   it('can write and read a note', async function() {
-    console.log('signing key', signingKeys)
-    console.log('crypto key', cryptoKeys)
     var note = await Client.writeNote(
       { secret: 'encrypted' },
+      cryptoKeys.publicKey,
       signingKeys.publicKey,
       cryptoKeys,
       signingKeys,
@@ -71,6 +69,7 @@ describe('Notes', function() {
   it('can write and delete a note', async function() {
     var note = await Client.writeNote(
       { secret: 'encrypted' },
+      cryptoKeys.publicKey,
       signingKeys.publicKey,
       cryptoKeys,
       signingKeys,
@@ -118,6 +117,7 @@ describe('Notes', function() {
   it('cant read guest-note twice', async function() {
     var note = await Client.writeNote(
       { secret: 'encrypted' },
+      cryptoKeys.publicKey,
       signingKeys.publicKey,
       cryptoKeys,
       signingKeys,
