@@ -45,7 +45,7 @@ module.exports = function(config) {
     preprocessors: {
       '**/*.js': ['env']
     },
-    envPreprocessor: ['REGISTRATION'],
+    envPreprocessor: ['REGISTRATION_TOKEN'],
     Plugins: ['karma-env-preprocessor'],
 
     // Test results reporter to use

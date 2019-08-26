@@ -1,6 +1,5 @@
 // eslint-disable-next-line dot-notation
-const regToken = window.__env__['REGISTRATION']
-// Const regToken = 'fkwjaflkds'
+const regToken = window.__env__['REGISTRATION_TOKEN']
 const apiUrl = 'https://api.e3db.com'
 const Client = window.tozStore.Client
 const Config = window.tozStore.Config
@@ -15,6 +14,7 @@ describe('Notes', function() {
   var client
   var originalTimeout
   beforeAll(async function() {
+    console.log('Reg token', regToken)
     originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 100000
 
@@ -46,11 +46,6 @@ describe('Notes', function() {
     )
     client = new Client(config)
   }, 20000)
-
-  it('can get registration token', function() {
-    console.log('registraiton token', regToken)
-    expect(regToken).toBe('1')
-  })
 
   it('can write and read a note', async function() {
     var note = await Client.writeNote(
