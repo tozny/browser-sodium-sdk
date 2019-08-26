@@ -1,4 +1,6 @@
-const regToken = process.env.REGISTRATION
+const envVariables = window.__env__ || []
+const regToken = envVariables.REGISTRATION
+// Const regToken = 'fkwjaflkds'
 const apiUrl = 'https://api.e3db.com'
 const Client = window.tozStore.Client
 const Config = window.tozStore.Config

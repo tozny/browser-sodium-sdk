@@ -42,6 +42,12 @@ module.exports = function(config) {
     // List of files / patterns to load in the browser
     files: ['dist/browser/tozny-browser-sodium-sdk.min.js', 'test/notes.test.js'],
 
+    preprocessors: {
+      '**/*.js': ['env']
+    },
+    envPreprocessor: ['REGISTRATION'],
+    Plugins: ['karma-env-preprocessor'],
+
     // Test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
