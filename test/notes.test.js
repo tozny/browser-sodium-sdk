@@ -1,5 +1,5 @@
-const envVariables = window.__env__ || []
-const regToken = envVariables.REGISTRATION
+// eslint-disable-next-line dot-notation
+const regToken = window.__env__['REGISTRATION']
 // Const regToken = 'fkwjaflkds'
 const apiUrl = 'https://api.e3db.com'
 const Client = window.tozStore.Client
