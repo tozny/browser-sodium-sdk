@@ -1,4 +1,4 @@
-const regToken = '92f971adf5ed04851024c6244a86b20f4578cf8a4bfbd3aaa6fa4c392455f01a'
+const regToken = process.env.REGISTRATION
 const apiUrl = 'https://api.e3db.com'
 const Client = window.tozStore.Client
 const Config = window.tozStore.Config
@@ -44,6 +44,11 @@ describe('Notes', function() {
     )
     client = new Client(config)
   }, 20000)
+
+  it('can get registration token', function() {
+    console.log('registraiton token', regToken)
+    expect(regToken).toBe('1')
+  })
 
   it('can write and read a note', async function() {
     var note = await Client.writeNote(
