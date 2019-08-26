@@ -48,6 +48,8 @@ describe('Notes', function() {
   }, 20000)
 
   it('can write and read a note', async function() {
+    console.log('signing key', signingKeys)
+    console.log('crypto key', cryptoKeys)
     var note = await Client.writeNote(
       { secret: 'encrypted' },
       signingKeys.publicKey,
