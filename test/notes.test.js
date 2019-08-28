@@ -1,8 +1,8 @@
 // eslint-disable-next-line dot-notation
 const regToken = window.__env__['REGISTRATION_TOKEN']
 const apiUrl = 'https://api.e3db.com'
-const Client = window.tozStore.Client
-const Config = window.tozStore.Config
+const Client = window.Tozny.Storage.Client
+const Config = window.Tozny.Storage.Config
 
 // Test Notes Application
 describe('Notes', function() {
