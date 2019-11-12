@@ -42,7 +42,7 @@ A client's credentials are integrally involved when they perform cryptographic o
 
 ### Create client credentials with Tozny Dashboard
 
-The first way to generate client credentials is go to the Dashboard to the Create Clients tab and create a new client, then gather the client's credentials presented as a JSON. (The client credentials JSON can always be retrieved from the Clients section.)  In this one action,the Dashboard will generate the needed keys, register the client with TozStore, and receive the resulting TozStore client ID and credentials needed to authenticate with the Tozny API. Additionally, an encrypted back-up of the client's credentials will saved in TozStore. This same workflow can be implemented using a TozStore SDK to dynamically generate client credentials, register, and optionally back-up clients.
+The first way to generate client credentials is go to the Dashboard to the Create Clients tab and create a new client, then gather the client's credentials presented as a JSON. (The client credentials JSON can always be retrieved from the Clients section.) In this one action,the Dashboard will generate the needed keys, register the client with TozStore, and receive the resulting TozStore client ID and credentials needed to authenticate with the Tozny API. Additionally, an encrypted back-up of the client's credentials will saved in TozStore. This same workflow can be implemented using a TozStore SDK to dynamically generate client credentials, register, and optionally back-up clients.
 
 To instantiate a TozStore client instance and access the TozStore API with a client credentials object copied & pasted from the Dashboard:
 
@@ -176,25 +176,23 @@ console.log(client)
 To write new records to the database, call the `Client.write` method with a string describing the type of data to be written, a record data object of key value pairs (the keys be stored in plaintext and the values encrypted), and optional object of plaintext metadata. `Client.write` returns the newly created record.
 
 ```js
-
-const write = async (client) => {
+const write = async client => {
   const recordData = {
-    keyA: 'valueA',
-    keyB: 'valueB',
-    keyC: 'valueC'
+    keyA: "valueA",
+    keyB: "valueB",
+    keyC: "valueC"
   }
   const plainMeta = {
     plain1: "val1",
     plain2: "val2",
     plain3: "val3"
   }
-  const written = await client.write('test-type', recordData, plainMeta)
+  const written = await client.write("test-type", recordData, plainMeta)
   return written
 }
 
 const record = write()
 console.log(record)
-
 ```
 
 ## Querying records
@@ -202,19 +200,17 @@ console.log(record)
 TozStore supports many options for querying records based on the fields stored in record metadata. Refer to the API documentation for the complete set of options that can be passed to `Client.query`.
 
 ```js
-
 let data = true
 let writer = null
 let record = null
-let type = 'test-type'
+let type = "test-type"
 
-const query = async (client) => {
+const query = async client => {
   let records = await client.query(data, writer, record, type).next()
   return records
 }
 const records = query(client)
 console.log(records)
-
 ```
 
 In this example, the `Client.query` method returns an array that contains each record that matches the query.
@@ -323,7 +319,7 @@ revoke(client)
 
 ## Write Large File
 
-The `Client.writeLargeFile` method expects a file parameter as a JavaScript File object type along with a record type and an optional object of plaintext metadata.  This type of file can be gathered with an input.
+The `Client.writeLargeFile` method expects a file parameter as a JavaScript File object type along with a record type and an optional object of plaintext metadata. This type of file can be gathered with an input.
 
 ```
   <input type="file" id="files" name="files[]" />
@@ -383,7 +379,6 @@ readFile(client)
 
 The `Client.readLargeFile` method returns a JavaScript Blob type object of the decrypted bytes and a TozStore File object.
 
-
 ## Local Encryption & Decryption
 
 The TozStore SDK allows you to encrypt documents for local storage, which can be decrypted later, by the client that created the document or any client with which the document has been `shared`. Note that locally encrypted documents _cannot_ be written directly to TozStore -- they must be decrypted locally and written using the `write` or `update` methods.
@@ -397,26 +392,24 @@ Local encryption (and decryption) requires multiple steps:
 Here is an example of encrypting a document locally:
 
 ```js
-
-const localEncrypt = async (client) => {
-
+const localEncrypt = async client => {
   let document = {
-    line:   "Say I'm the only bee in your bonnet",
-    song:   'Birdhouse in Your Soul',
-    artist: 'They Might Be Giants'
+    line: "Say I'm the only bee in your bonnet",
+    song: "Birdhouse in Your Soul",
+    artist: "They Might Be Giants"
   }
 
-  let eak = await client.createWriterKey('lyric')
+  let eak = await client.createWriterKey("lyric")
 
-  let encrypted = await client.localEncrypt('lyric', document, eak, {metaKey1: 'plainVal1'})
+  let encrypted = await client.localEncrypt("lyric", document, eak, {
+    metaKey1: "plainVal1"
+  })
 
   console.log(encrypted)
 
   // Write record to storage in suitable format.
-
 }
 localEncrypt(client)
-
 ```
 
 ## Local Decryption of Shared Records
@@ -426,35 +419,35 @@ When two clients have a sharing relationship, the "reader" can locally decrypt a
 The 'writer' must first share records with a 'reader', using the `share` method. The 'reader' can then decrypt any locally encrypted records as follows:
 
 ```js
-const localDecrypt = async (client) => {
-
+const localDecrypt = async client => {
   // An encrypted record is needed to decrypt.
 
   let document = {
-    line:   "Say I'm the only bee in your bonnet",
-    song:   'Birdhouse in Your Soul',
-    artist: 'They Might Be Giants'
+    line: "Say I'm the only bee in your bonnet",
+    song: "Birdhouse in Your Soul",
+    artist: "They Might Be Giants"
   }
 
-  let eak = await client.createWriterKey('lyric')
+  let eak = await client.createWriterKey("lyric")
 
-  let encrypted = await client.localEncrypt('lyric', document, eak, {metaKey1: 'plainVal1'})
+  let encrypted = await client.localEncrypt("lyric", document, eak, {
+    metaKey1: "plainVal1"
+  })
   // Write record to storage in suitable format.
   let writerId = client.config.clientId
 
   // The client can share that record type with another client.
   const client2 = await createClient()
   const readerClientId = client2.config.clientId
-  const share = await client.share('lyric', readerClientId)
+  const share = await client.share("lyric", readerClientId)
   console.log(share)
 
   // The second client can now read the shared record type.
-  let eak2 = await client2.getReaderKey(writerId, writerId, 'lyric') // Encrypted access key for the reader
+  let eak2 = await client2.getReaderKey(writerId, writerId, "lyric") // Encrypted access key for the reader
   let record = await client2.localDecrypt(encrypted, eak2)
   console.log(record)
 }
 localDecrypt(client)
-
 ```
 
 ## Document Signing & Verification
@@ -467,42 +460,54 @@ Every TozStore client created with this SDK is capable of signing documents and 
 To create a signature, use the `sign` method:
 
 ```js
-const { Config, Client, tozStoreTypes } = require('tozny-browser-sodium-sdk')
+const { Config, Client, tozStoreTypes } = require("tozny-browser-sodium-sdk")
 
-const signDoc = async (client) => {
- let data = new tozStoreTypes.RecordData(document)
- let meta = new tozStoreTypes.Meta(client.config.clientId, client.config.clientId, 'lyric', {})
+const signDoc = async client => {
+  let data = new tozStoreTypes.RecordData(document)
+  let meta = new tozStoreTypes.Meta(
+    client.config.clientId,
+    client.config.clientId,
+    "lyric",
+    {}
+  )
 
- let recordInfo = new tozStoreTypes.RecordInfo(meta, data)
- let signature = await client.sign(recordInfo)
+  let recordInfo = new tozStoreTypes.RecordInfo(meta, data)
+  let signature = await client.sign(recordInfo)
 
- let signed = new tozStoreTypes.Record(meta, data, signature)
- console.log('signed', signed)
+  let signed = new tozStoreTypes.Record(meta, data, signature)
+  console.log("signed", signed)
 }
 
 signDoc(client)
-
 ```
 
 To verify a document, use the verify method. Here, we use the same object instances as above. `client.config` holds the private & public keys for the client. (Note that, in general, verify requires the public signing key of the client that wrote the record):
 
 ```js
-const verify = async (client) => {
- let data = new tozStoreTypes.RecordData(document)
- let meta = new tozStoreTypes.Meta(client.config.clientId, client.config.clientId, 'lyric', {})
+const verify = async client => {
+  let data = new tozStoreTypes.RecordData(document)
+  let meta = new tozStoreTypes.Meta(
+    client.config.clientId,
+    client.config.clientId,
+    "lyric",
+    {}
+  )
 
- let recordInfo = new tozStoreTypes.RecordInfo(meta, data)
- let signature = await client.sign(recordInfo)
+  let recordInfo = new tozStoreTypes.RecordInfo(meta, data)
+  let signature = await client.sign(recordInfo)
 
- let signed = new tozStoreTypes.Record(meta, data, signature)
- console.log('signed', signed)
+  let signed = new tozStoreTypes.Record(meta, data, signature)
+  console.log("signed", signed)
 
- let signedDocument = new tozStoreTypes.SignedDocument(recordInfo, signature)
- let verified = await client.verify(signedDocument, client.config.publicSigningKey)
- if (! verified) {
-   // Document failed verification, indicate an error as appropriate
- }
- console.log(verified)
+  let signedDocument = new tozStoreTypes.SignedDocument(recordInfo, signature)
+  let verified = await client.verify(
+    signedDocument,
+    client.config.publicSigningKey
+  )
+  if (!verified) {
+    // Document failed verification, indicate an error as appropriate
+  }
+  console.log(verified)
 }
 
 verify(client)
