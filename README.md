@@ -6,7 +6,7 @@ The Tozny Storage platform (TozStore) is an end-to-end encrypted storage platfor
 
 ## Terms of Service
 
-Your use of TozStore must abide by our [Terms of Service](https://github.com/tozny/e3db-java/blob/master/terms.pdf), as detailed in the linked document.
+Your use of TozStore must abide by our [Terms of Service](https://tozny.com/tozny-terms-of-service/), as detailed in the linked document.
 
 # Getting Started
 
